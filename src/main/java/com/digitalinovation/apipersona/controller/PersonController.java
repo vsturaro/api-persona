@@ -3,6 +3,7 @@ package com.digitalinovation.apipersona.controller;
 import com.digitalinovation.apipersona.dto.MessageResponseDTO;
 import com.digitalinovation.apipersona.dto.request.PersonDTO;
 import com.digitalinovation.apipersona.entity.Person;
+import com.digitalinovation.apipersona.exception.PersonFoundException;
 import com.digitalinovation.apipersona.repository.PersonRepository;
 import com.digitalinovation.apipersona.service.PersonService;
 import org.apache.catalina.LifecycleState;
@@ -36,5 +37,10 @@ public class PersonController {
     @GetMapping
     public List<PersonDTO> listAll(){
         return personService.listAll();
+    }
+
+    @GetMapping("/{id}")
+    public PersonDTO findById(@PathVariable Long id) throws PersonFoundException {
+        return personService.findByid(id);
     }
 }
