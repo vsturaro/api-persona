@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -43,13 +42,28 @@ public class PersonService {
     }
 
     public PersonDTO findByid(Long id) throws PersonFoundException {
-        Person person = personRepository.findById(id)
-                .orElseThrow(() ->new PersonFoundException(id));
-        //Optional<Person> optionalPerson = personRepository.findById(id);
-       // if (optionalPerson.isEmpty()){
-         //   throw new PersonFoundException(id);
+        Person person = new VerifyIfExists(id).invoke();
 
         return personMapper.toDTO(person);
 
+    }
+
+    public void delete(long id) throws PersonFoundException {
+        new VerifyIfExists(id).invoke();
+
+        personRepository.deleteById(id);
+    }
+
+    private class VerifyIfExists {
+        private Long id;
+
+        public VerifyIfExists(Long id) {
+            this.id = id;
+        }
+
+        public Person invoke() throws PersonFoundException {
+            return personRepository.findById(id)
+                    .orElseThrow(() ->new PersonFoundException(id));
+        }
     }
 }
