@@ -1,6 +1,7 @@
 package com.digitalinovation.apipersona.controller;
 
 import com.digitalinovation.apipersona.dto.MessageResponseDTO;
+import com.digitalinovation.apipersona.dto.request.PersonDTO;
 import com.digitalinovation.apipersona.entity.Person;
 import com.digitalinovation.apipersona.repository.PersonRepository;
 import com.digitalinovation.apipersona.service.PersonService;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 
 
 @RestController //informar q é um controlador
@@ -25,7 +27,7 @@ public class PersonController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MessageResponseDTO createPerson(@RequestBody Person person) {
-        return personService.createPerson(person);
+    public MessageResponseDTO createPerson(@RequestBody @Valid PersonDTO personDTO) {
+        return personService.createPerson(personDTO);
     }
 }
