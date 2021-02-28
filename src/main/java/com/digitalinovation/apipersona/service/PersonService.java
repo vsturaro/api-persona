@@ -21,6 +21,7 @@ public class PersonService {
 
     @Autowired
     public PersonService(PersonRepository personRepository) {
+
         this.personRepository = personRepository;
     }
 
@@ -58,7 +59,10 @@ public class PersonService {
         Person updatePerson = personRepository.save(personToUpdate);
         return createMessageResponse(updatePerson.getId(), "Update person with ID ");
     }
-
+    private Person VerifyIfExists(Long id) throws PersonFoundException {
+        return personRepository.findById(id)
+                .orElseThrow(() -> new PersonFoundException(id));
+    }
     private MessageResponseDTO createMessageResponse(Long id, String message) {
         return MessageResponseDTO
                 .builder()
@@ -66,7 +70,7 @@ public class PersonService {
                 .build();
     }
 
-    private class VerifyIfExists {
+     private class VerifyIfExists {
         private Long id;
 
         public VerifyIfExists(Long id) {
