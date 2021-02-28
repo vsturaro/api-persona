@@ -6,6 +6,7 @@ import com.digitalinovation.apipersona.entity.Person;
 import com.digitalinovation.apipersona.exception.PersonFoundException;
 import com.digitalinovation.apipersona.repository.PersonRepository;
 import com.digitalinovation.apipersona.service.PersonService;
+import lombok.AllArgsConstructor;
 import org.apache.catalina.LifecycleState;
 import org.apache.logging.log4j.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +19,15 @@ import java.util.List;
 
 @RestController //informar q é um controlador
 @RequestMapping("api/v1/people") //mapeamento com versão
-
+@AllArgsConstructor(onConstructor = @__(@Autowired)) //injeta dependencia e dispensa o cosntrutor
 public class PersonController {
 
     private PersonService personService;
 
-    @Autowired
-    public PersonController(PersonService personService) {
-        this.personService = personService;
-    }
+    //dispensado pelo uso da linha 22
+//    @Autowired
+//    public PersonController(PersonService personService) {        this.personService = personService;
+//    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
